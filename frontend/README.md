@@ -51,12 +51,17 @@ The project uses a `Dockerfile` to automate the environment setup:
 5.  **Networking:** Exposes port `3000` for browser access.
 
 
-## 🚦 How to Run
-
-### Run the container with port mapping
-docker run -p 3000:3000 react-app
-
+## 🚦 How to work
 
 ### Build the Image
+
 ```bash
 docker build -t react-app .
+```
+
+### Run the container with port mapping
+```bash
+docker run -p 3000:3000 react-app
+```
+
+### Test: 👉 http://localhost:3000
