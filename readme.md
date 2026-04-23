@@ -40,7 +40,7 @@ High-level flow:
 
 ## Image Architecture 
 
-![Todo application](/mermaid-Architecture.png)
+![Todo application](/mermaid-Architecture.jpg)
 
 ## Technologies Used
 
