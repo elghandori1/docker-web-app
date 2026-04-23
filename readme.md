@@ -38,12 +38,11 @@ High-level flow:
 - Dockerized development setup
 - Persistent MySQL storage with Docker volume
 
-## Technologies Used
-
 ## Image Architecture 
 
 ![Todo application](/mermaid-Architecture.png)
 
+## Technologies Used
 
 Frontend:
 
