@@ -1,83 +1,153 @@
-# Dockerized Full-Stack Web Application
+# Dockerized Todo Web Application
 
-This project is a full-stack web application consisting of a React-based frontend and a Node.js backend. Both applications are containerized using Docker to ensure consistent deployment and development environments across different machines.
+This project is a full-stack Todo application built with a React frontend, a Node.js and Express backend, and a MySQL database.
 
-## 📁 Project Structure
+The full app runs with Docker Compose, so you can start everything with one command.
 
-The repository is divided into two main components:
+## Project Overview
 
-```text
-docker-web-app/
-├── backend/                # Backend Node.js API
-│   ├── Dockerfile          # Docker configuration for the backend
-│   ├── index.js            # Main entry point for the backend server
-│   ├── package.json        # Backend dependencies and scripts
-│   └── README.md           # Backend-specific documentation
-├── frontend/               # Frontend React Application
-│   ├── Dockerfile          # Docker configuration for the frontend
-│   ├── package.json        # Frontend dependencies and scripts
-│   ├── public/             # Static public assets (HTML, icons, manifests)
-│   ├── src/                # React source code (components, styles, tests)
-│   └── README.md           # Frontend-specific documentation
-└── readme.md               # Main project documentation (this file)
-└── docker-compose.yml      # Multi-container configuration
-```
+This application allows users to:
 
-## ⚙️ Docker Compose Setup
+- View all tasks
+- Add a new task
+- Delete a task
 
-### 📄 docker-compose.yml
+The goal of this project is to demonstrate how to build and run a complete web app with separate frontend, backend, and database services in containers.
 
-```YAML
-services:
-  backend:
-    build: ./backend
-    ports:
-      - "5000:5000"
+## Architecture
 
-  frontend:
-    build: ./frontend
-    ports:
-      - "3000:3000"
-    depends_on:
-      - backend
-```
+The app uses 3 services:
 
-## ⚙️ How It Works
+- Frontend: React application running in development mode
+- Backend: Express API server connected to MySQL
+- Database: MySQL 8 container with persistent volume
 
-* React runs on port 3000
-* Express backend runs on port 5000
-* Docker Compose connects both using an internal network
+High-level flow:
 
-## ⚙️ Run the Application
+1. User opens the frontend in the browser.
+2. Frontend sends API requests to the backend.
+3. Backend reads and writes task data in MySQL.
+4. Backend returns JSON responses to the frontend.
 
-### ▶️ Start everything
+## Features
 
-```bash
-docker compose up --build
-```
+- Create task
+- List tasks
+- Delete task
+- CORS enabled for frontend-backend communication
+- Dockerized development setup
+- Persistent MySQL storage with Docker volume
 
-### 🌐 Open in browser
+## Technologies Used
 
-👉 http://localhost:3000
+## Image Architecture 
 
-You should see:
+![Todo application](/mermaid-Architecture.png)
 
-React + Docker
-Hello from Backend!
 
-### 🛑 Stop everything
+Frontend:
 
-Stop everything: Press Ctrl + C  or run docker-compose down
+- React
+- JavaScript
+- React Scripts
 
-### Why use "proxy": "http://backend:5000" in React In frontend/package.json
+Backend:
 
-1. Simplifies Code (Relative Paths)
-It allows the React frontend to communicate with the API without hardcoding the full URL. Instead of writing fetch("http://localhost:5000/api/data"), you simply use:
-fetch("/api/data")
-React automatically forwards this request to http://backend:5000/api/data.
+- Node.js
+- Express
+- mysql2
+- cors
 
-2. Bridges the Docker Network
-Inside the Docker Compose network, backend is the service name (internal DNS). However, your browser (which is outside Docker) doesn't know what "backend" means—it only understands localhost. The proxy acts as a middle layer that lives inside the network and forwards your browser's requests to the correct internal container.
+Database:
 
-3. Bypasses CORS Issues
-Browsers often block requests when a frontend (Port 3000) tries to talk to a backend (Port 5000). By using a proxy, the browser thinks the request is staying on Port 3000, while the development server secretly handles the jump to Port 5000, preventing "Cross-Origin" security errors.
+- MySQL 8
+
+DevOps and Tools:
+
+- Docker
+- Docker Compose
+
+## Project Structure
+
+	docker-web-app/
+	├── docker-compose.yml
+	├── .env
+	├── backend/
+	│   ├── Dockerfile
+	│   ├── package.json
+	│   └── server.js
+	└── frontend/
+		├── Dockerfile
+		├── package.json
+		├── public/
+		└── src/
+
+## Environment Variables
+
+Create or update a .env file in the project root with values like:
+
+	MYSQL_ROOT_PASSWORD=1234
+	MYSQL_DATABASE=testdb
+	DB_PORT=3307
+	BACKEND_PORT=3001
+	FRONTEND_PORT=3000
+	REACT_APP_API_URL=http://localhost:3001
+
+## How to Run
+
+1. Make sure Docker Desktop is installed and running.
+2. Open a terminal in the project root.
+3. Run:
+
+	docker compose up --build
+
+4. Open the app in your browser:
+
+	http://localhost:3000
+
+## API Endpoints
+
+- GET /tasks
+  Returns all tasks.
+
+- POST /tasks
+  Adds a new task.
+
+- DELETE /tasks/:id
+  Deletes a task by id.
+
+## check backend API
+
+  http://localhost:3001/tasks
+
+## Useful Commands
+
+Start services:
+
+	docker compose up --build
+
+Stop services:
+
+	docker compose down
+
+Stop and remove database volume (reset data):
+
+	docker compose down -v
+
+## What We Built
+
+In this project we:
+
+- Built a React frontend for task management
+- Built a Node.js and Express API for task operations
+- Integrated a MySQL database for persistent storage
+- Connected all services with Docker Compose
+- Configured environment variables for flexible local setup
+
+## Future Improvements
+
+- Add update and complete task endpoints
+- Add task status and due dates
+- Add authentication and user accounts
+- Add frontend form validation and notifications
+- Add automated tests for backend and frontend
