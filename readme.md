@@ -16,16 +16,17 @@ The goal of this project is to demonstrate how to build and run a complete web a
 
 ## Architecture
 
-The app uses 3 services:
+The app uses 4 services:
 
+- Nginx: Reverse proxy acting as the main entry point, routing traffic to frontend and backend services
 - Frontend: React application running in development mode
 - Backend: Express API server connected to MySQL
 - Database: MySQL 8 container with persistent volume
 
 High-level flow:
 
-1. User opens the frontend in the browser.
-2. Frontend sends API requests to the backend.
+1. User opens the application in the browser through Nginx via port 80.
+2. Nginx routes frontend requests to the React app, and API requests (starting with `/api/`) to the Express backend.
 3. Backend reads and writes task data in MySQL.
 4. Backend returns JSON responses to the frontend.
 
@@ -40,7 +41,7 @@ High-level flow:
 
 ## Image Architecture 
 
-![Todo application](/mermaid-Architecture.jpg)
+![Todo application](/mermaid-Architecture+nginx.jpg)
 
 ## Technologies Used
 
@@ -65,12 +66,15 @@ DevOps and Tools:
 
 - Docker
 - Docker Compose
+- Nginx
 
 ## Project Structure
 
 	docker-web-app/
 	├── docker-compose.yml
 	├── .env
+	├── nginx/
+	│   └── nginx.conf
 	├── backend/
 	│   ├── Dockerfile
 	│   ├── package.json
@@ -102,7 +106,7 @@ Create or update a .env file in the project root with values like:
 
 4. Open the app in your browser:
 
-	http://localhost:3000
+	http://localhost
 
 ## API Endpoints
 
@@ -117,7 +121,7 @@ Create or update a .env file in the project root with values like:
 
 ## check backend API
 
-  http://localhost:3001/tasks
+  http://localhost/api/tasks
 
 ## Useful Commands
 
